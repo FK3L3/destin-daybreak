@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Destin Daybreak - Conditions & Briefing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sand:#f4ece0;
+    --sand-deep:#e8d6c8;
+    --ink:#173b3a;
+    --ink-soft:#3c5b58;
+    --teal:#0e6b63;
+    --emerald:#1f9e86;
+    --foam:#bfe6da;
+    --coral:#e2674a;
+    --amber:#e6a23c;
+    --sun:#f6c66b;
+    --paper:#fbf6ee;
+    --line:rgba(23,59,58,.12);
+    --shadow:0 10px 30px -12px rgba(23,59,58,.28);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--sand);color:var(--ink)}
+  body{
+    font-family:'Hanken Grotesk',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(120% 80% at 50% -10%, #ffe7c2 0%, rgba(255,231,194,0) 45%),
+      linear-gradient(180deg,#f7efe3 0%, #f1e7d8 100%);
+    background-attachment:fixed;
+    min-height:100vh;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 64px;position:relative;z-index:1}
+
+  /* HEADER */
+  header.hero{
+    margin:0 -18px 22px;padding:30px 22px 26px;
+    background:linear-gradient(165deg,#0e6b63 0%, #14534f 55%, #0c3b3a 100%);
+    color:var(--paper);position:relative;overflow:hidden;
+    border-bottom-left-radius:28px;border-bottom-right-radius:28px;
+  }
+  header.hero::after{
+    content:"";position:absolute;right:-40px;top:-50px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,#f6c66b 0%, #e6a23c 40%, rgba(230,162,60,0) 72%);opacity:.55;
+  }
+  .kicker{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;opacity:.8;font-weight:600}
+  header.hero h1{
+    font-family:'Fraunces',serif;font-weight:600;font-size:2.5rem;line-height:1.02;margin:.18em 0 .1em;
+    letter-spacing:-.01em;
+  }
+  .datestrip{display:flex;flex-wrap:wrap;gap:14px;align-items:baseline;font-size:.95rem;opacity:.92;position:relative;z-index:1}
+  .datestrip .sep{opacity:.45}
+  #status{font-size:.74rem;letter-spacing:.04em;margin-top:12px;opacity:.78;display:flex;align-items:center;gap:7px}
+  #status .dot{width:8px;height:8px;border-radius:50%;background:var(--sun);box-shadow:0 0 0 4px rgba(246,198,107,.25)}
+  #status.live .dot{background:#7ef0c2;box-shadow:0 0 0 4px rgba(126,240,194,.22)}
+  #status.fail .dot{background:var(--coral);box-shadow:0 0 0 4px rgba(226,103,74,.22)}
+
+  /* BRIEFING */
+  .briefing{
+    background:var(--paper);border-radius:22px;padding:24px 24px 22px;box-shadow:var(--shadow);
+    border:1px solid var(--line);margin-bottom:18px;position:relative;
+  }
+  .briefing .label{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--teal);font-weight:700}
+  .briefing h2{font-family:'Fraunces',serif;font-weight:600;font-size:1.35rem;margin:.3em 0 .55em;color:var(--ink)}
+  #brief-body{font-size:1.06rem;color:var(--ink-soft);line-height:1.62}
+  #brief-body b{color:var(--ink);font-weight:600}
+  .verdict{display:inline-flex;align-items:center;gap:9px;margin-top:16px;padding:9px 15px;border-radius:999px;
+    font-weight:700;font-size:.95rem;letter-spacing:.01em}
+  .v-go{background:#dff3e6;color:#1c7a4a}
+  .v-ok{background:#fdf0d6;color:#a9742a}
+  .v-no{background:#fbe1da;color:#b23c25}
+
+  /* SCORES */
+  .scores{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+  .scorecard{background:var(--paper);border-radius:20px;padding:18px 18px 16px;box-shadow:var(--shadow);border:1px solid var(--line);position:relative;overflow:hidden}
+  .scorecard .t{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+  .scorecard .num{font-family:'Fraunces',serif;font-weight:600;font-size:2.8rem;line-height:1;margin:.12em 0 .04em}
+  .scorecard .num span{font-size:1.1rem;opacity:.5;font-family:'Hanken Grotesk'}
+  .scorecard .sub{font-size:.85rem;color:var(--ink-soft)}
+  .bead{height:6px;border-radius:99px;background:var(--line);margin-top:12px;overflow:hidden}
+  .bead i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--emerald),var(--sun))}
+
+  /* GRID CARDS */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+  .card{background:var(--paper);border-radius:20px;padding:18px;box-shadow:var(--shadow);border:1px solid var(--line)}
+  .card.full{grid-column:1/-1}
+  .card h3{font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .card h3 .ic{font-size:1.1rem}
+  .stat{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--line);font-size:.95rem}
+  .stat:last-child{border-bottom:none}
+  .stat .k{color:var(--ink-soft)}
+  .stat .v{font-weight:600;font-variant-numeric:tabular-nums}
+
+  /* FLAG SELECTOR */
+  .flags{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 12px}
+  .flagbtn{flex:1;min-width:62px;border:2px solid transparent;border-radius:13px;padding:10px 6px;cursor:pointer;
+    font-weight:600;font-size:.78rem;text-align:center;background:#fff;color:var(--ink);transition:.15s;box-shadow:inset 0 0 0 1px var(--line)}
+  .flagbtn .swatch{display:block;height:14px;border-radius:5px;margin-bottom:6px}
+  .flagbtn[data-f="green"]  .swatch{background:#2faa5d}
+  .flagbtn[data-f="yellow"] .swatch{background:#f1c40f}
+  .flagbtn[data-f="red"]    .swatch{background:#e23c2b}
+  .flagbtn[data-f="double"] .swatch{background:repeating-linear-gradient(45deg,#e23c2b,#e23c2b 6px,#7a1d14 6px,#7a1d14 12px)}
+  .flagbtn[data-f="purple"] .swatch{background:#8e44ad}
+  .flagbtn.active{border-color:var(--teal);box-shadow:0 6px 16px -8px rgba(14,107,99,.6);transform:translateY(-1px)}
+  .hint{font-size:.82rem;color:var(--ink-soft);background:#fff6e6;border:1px solid #f3dca6;border-radius:12px;padding:10px 12px;margin-top:6px;line-height:1.5}
+  .hint b{color:#a9742a}
+
+  /* TIDES */
+  .tides{display:flex;flex-direction:column;gap:6px}
+  .tide-row{display:flex;align-items:center;gap:12px;font-size:.95rem;padding:6px 0;border-bottom:1px dashed var(--line)}
+  .tide-row:last-child{border-bottom:none}
+  .tide-row .pill{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:99px;min-width:48px;text-align:center}
+  .tide-row .pill.H{background:#dceff0;color:#0e6b63}
+  .tide-row .pill.L{background:#f3e8dc;color:#9a6b3f}
+  .tide-row .time{font-weight:600;font-variant-numeric:tabular-nums}
+  .tide-row .ht{margin-left:auto;color:var(--ink-soft);font-size:.85rem}
+
+  /* OPS / EDITABLE */
+  .ops .row{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;padding:7px 0;border-bottom:1px dashed var(--line)}
+  .ops .row:last-child{border-bottom:none}
+  .ops label{font-size:.85rem;color:var(--ink-soft);font-weight:600}
+  .ops input{font-family:inherit;font-size:.95rem;border:none;background:transparent;color:var(--ink);width:100%;text-align:right;padding:3px 0}
+  .ops input:focus{outline:none;border-bottom:2px solid var(--emerald)}
+  .checklist{list-style:none;margin-top:6px}
+  .checklist li{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:.95rem}
+  .checklist li:last-child{border-bottom:none}
+  .checklist input[type=checkbox]{width:19px;height:19px;accent-color:var(--emerald);flex:none}
+  .checklist .txt{flex:1}
+  .checklist .done{text-decoration:line-through;opacity:.5}
+  .checklist .del{background:none;border:none;color:var(--coral);cursor:pointer;font-size:1.05rem;opacity:.55}
+  .additem{display:flex;gap:8px;margin-top:10px}
+  .additem input{flex:1;font-family:inherit;font-size:.92rem;padding:9px 12px;border:1px solid var(--line);border-radius:11px;background:#fff}
+  .additem input:focus{outline:none;border-color:var(--emerald)}
+  .btn{font-family:inherit;font-weight:600;font-size:.9rem;border:none;border-radius:11px;padding:9px 16px;cursor:pointer;background:var(--teal);color:#fff;transition:.15s}
+  .btn:hover{background:var(--ink)}
+  .btn.ghost{background:#fff;color:var(--teal);box-shadow:inset 0 0 0 1px var(--line)}
+
+  /* BEST BEACH DAY */
+  .bestday{margin-bottom:18px}
+  .bd-head{font-size:.95rem;color:var(--ink-soft);margin-bottom:10px}
+  .bd-head b{color:var(--teal);font-family:'Fraunces',serif;font-size:1.05rem}
+  .rankrow{display:grid;grid-template-columns:34px auto 52px 1fr;gap:10px;align-items:center;padding:9px 8px;border-radius:11px;font-size:.92rem}
+  .rankrow+.rankrow{margin-top:4px}
+  .rankrow .rk{font-weight:700;color:var(--ink-soft);text-align:center}
+  .rankrow .rdate{font-weight:600;font-variant-numeric:tabular-nums}
+  .rankrow .rscore{font-weight:700;color:var(--teal);text-align:right}
+  .rankrow .rwx{color:var(--ink-soft);font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rankrow.top{background:linear-gradient(90deg,#eafaf1,#fff);box-shadow:inset 0 0 0 1px rgba(31,158,134,.35)}
+  .rankrow.top .rk{color:#e6a23c}
+
+  /* ITINERARY */
+  .itin .day{border:1px solid var(--line);border-radius:16px;padding:14px 14px 8px;margin-bottom:12px;background:#fff;transition:.15s}
+  .itin .day.is-today{border-color:var(--emerald);box-shadow:0 8px 22px -12px rgba(31,158,134,.55);background:linear-gradient(180deg,#f3fbf6,#fff)}
+  .itin .dayhead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px}
+  .itin .dayhead .dl{font-family:'Fraunces',serif;font-weight:600;font-size:1.02rem;color:var(--ink)}
+  .itin .dayhead .dd{font-size:.78rem;color:var(--ink-soft);font-weight:600;letter-spacing:.02em}
+  .itin .dayhead .badge{font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#1c7a4a;background:#dff3e6;padding:3px 8px;border-radius:99px}
+  .slot{display:grid;grid-template-columns:74px 1fr;gap:10px;align-items:start;padding:6px 0;border-top:1px dashed var(--line)}
+  .slot:first-of-type{border-top:none}
+  .daywx{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.76rem;font-weight:600;color:var(--ink-soft);margin:0 0 8px;padding-bottom:8px;border-bottom:1px dashed var(--line)}
+  .daywx .chip{background:#eef4f1;border-radius:99px;padding:2px 9px}
+  .daywx .chip.hot{background:#fbe9d8;color:#a9742a}
+  .daywx .chip.wet{background:#e1eef7;color:#2e6ea8}
+  .slot .when{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);padding-top:9px}
+  .slot .when.am{color:#c98a2b}
+  .slot .when.pm{color:var(--emerald)}
+  .slot .when.eve{color:#7a5bb0}
+  .slot textarea{font-family:inherit;font-size:.92rem;line-height:1.4;color:var(--ink);width:100%;border:1px solid transparent;
+    border-radius:10px;padding:8px 10px;background:#faf6ef;resize:none;overflow:hidden;min-height:38px}
+  .slot textarea:focus{outline:none;border-color:var(--emerald);background:#fff}
+  .itin .tools{display:flex;gap:8px;margin-top:4px}
+
+  .refreshbar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap}
+  .refreshbar .meta{font-size:.78rem;color:var(--ink-soft)}
+
+  footer{text-align:center;font-size:.74rem;color:var(--ink-soft);margin-top:30px;line-height:1.6}
+  footer a{color:var(--teal)}
+  @media(max-width:520px){
+    header.hero h1{font-size:2.05rem}
+    .scores{grid-template-columns:1fr 1fr}
+    .grid{grid-template-columns:1fr}
+    .scorecard .num{font-size:2.4rem}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">Destin · Emerald Coast</div>
+    <h1>Daybreak</h1>
+    <div class="datestrip">
+      <span id="today">-</span>
+      <span class="sep">·</span>
+      <span id="sun">☀ -</span>
+      <span class="sep">·</span>
+      <span id="moon">🌙 -</span>
+    </div>
+    <div id="status"><span class="dot"></span><span id="status-txt">Loading live conditions…</span></div>
+  </header>
+
+  <!-- DAILY BRIEFING -->
+  <section class="briefing">
+    <div class="label">Your Morning Briefing</div>
+    <h2 id="brief-greeting">Good morning.</h2>
+    <div id="brief-body">Pulling the latest from the Gulf…</div>
+    <div id="verdict-wrap"></div>
+  </section>
+
+  <!-- SCORES -->
+  <section class="scores">
+    <div class="scorecard">
+      <div class="t">Beach Score</div>
+      <div class="num" id="beach-score">-<span>/10</span></div>
+      <div class="sub" id="beach-score-sub">-</div>
+      <div class="bead"><i id="beach-bead" style="width:0%"></i></div>
+    </div>
+    <div class="scorecard">
+      <div class="t">Bite Score</div>
+      <div class="num" id="fish-score">-<span>/10</span></div>
+      <div class="sub" id="fish-score-sub">solunar + tide heuristic</div>
+      <div class="bead"><i id="fish-bead" style="width:0%"></i></div>
+    </div>
+  </section>
+
+  <div class="refreshbar">
+    <span class="meta" id="updated">-</span>
+    <button class="btn ghost" id="refresh">↻ Refresh conditions</button>
+  </div>
+
+  <!-- BEST BEACH DAY -->
+  <section class="card full bestday">
+    <h3><span class="ic">⭐</span>Best Beach Day <span style="font-weight:400;font-size:.8rem;color:var(--ink-soft)">- ranked Jun 20-27 from the forecast</span></h3>
+    <div id="bestday-headline" class="bd-head">Pick day: <b id="bestday-best">-</b></div>
+    <div id="bestday-list"></div>
+  </section>
+
+  <!-- CONDITIONS GRID -->
+  <section class="grid">
+
+    <div class="card">
+      <h3><span class="ic">🌤️</span>Weather</h3>
+      <div class="stat"><span class="k">Now</span><span class="v" id="w-now">-</span></div>
+      <div class="stat"><span class="k">Today</span><span class="v" id="w-today">-</span></div>
+      <div class="stat"><span class="k">Wind</span><span class="v" id="w-wind">-</span></div>
+      <div class="stat"><span class="k">Rain chance</span><span class="v" id="w-rain">-</span></div>
+    </div>
+
+    <div class="card">
+      <h3><span class="ic">🌊</span>Water</h3>
+      <div class="stat"><span class="k">Water temp</span><span class="v" id="water-temp">-</span></div>
+      <div class="stat"><span class="k">Surf / seas</span><span class="v" id="surf">-</span></div>
+      <div class="stat"><span class="k">UV index</span><span class="v" id="uv">-</span></div>
+      <div class="stat"><span class="k">Daylight</span><span class="v" id="daylight">-</span></div>
+    </div>
+
+    <div class="card full">
+      <h3><span class="ic">🚩</span>Beach Flag <span style="font-weight:400;font-size:.8rem;color:var(--ink-soft)">- tap today's flag</span></h3>
+      <div class="flags" id="flags">
+        <button class="flagbtn" data-f="green"><span class="swatch"></span>Green</button>
+        <button class="flagbtn" data-f="yellow"><span class="swatch"></span>Yellow</button>
+        <button class="flagbtn" data-f="red"><span class="swatch"></span>Red</button>
+        <button class="flagbtn" data-f="double"><span class="swatch"></span>Dbl Red</button>
+        <button class="flagbtn" data-f="purple"><span class="swatch"></span>Purple</button>
+      </div>
+      <div class="hint">No public feed for live flags. Text <b>BEACH to 44144</b> for Okaloosa County's daily flag alert, or check the county Facebook page, then tap it here. Double red = water closed (and ticketable).</div>
+    </div>
+
+    <div class="card full">
+      <h3><span class="ic">🌗</span>Tides <span style="font-weight:400;font-size:.8rem;color:var(--ink-soft)">- NOAA Sta. 8729511, East Pass</span></h3>
+      <div class="tides" id="tides"><div class="stat"><span class="k">Loading tide predictions…</span></div></div>
+    </div>
+
+    <div class="card full">
+      <h3><span class="ic">⚠️</span>NWS Alerts</h3>
+      <div id="alerts"><div class="stat"><span class="k">Checking active alerts…</span></div></div>
+    </div>
+
+    <!-- TRIP OPS -->
+    <div class="card full ops">
+      <h3><span class="ic">🏠</span>Trip Ops</h3>
+      <div class="row"><label>Condo / address</label><input id="op-addr" placeholder="tap to add"></div>
+      <div class="row"><label>Checkout time</label><input id="op-checkout" placeholder="e.g. 10:00 AM"></div>
+      <div class="row"><label>Wi-Fi</label><input id="op-wifi" placeholder="network / pass"></div>
+      <div class="row"><label>Host / mgr</label><input id="op-host" placeholder="name + phone"></div>
+      <div class="row"><label>Nearest urgent care</label><input id="op-urgent" placeholder="tap to add"></div>
+    </div>
+
+    <div class="card full ops">
+      <h3><span class="ic">✅</span>Checklist</h3>
+      <ul class="checklist" id="checklist"></ul>
+      <div class="additem">
+        <input id="new-item" placeholder="Add a reminder (trash day, sunscreen, reservation…)">
+        <button class="btn" id="add-item">Add</button>
+      </div>
+    </div>
+
+    <div class="card full itin">
+      <h3><span class="ic">🗓️</span>Trip Itinerary <span style="font-weight:400;font-size:.8rem;color:var(--ink-soft)">- Jun 20-27 · tap any slot to edit</span></h3>
+      <div id="itinerary"></div>
+    </div>
+
+  </section>
+
+  <footer>
+    Built for Destin, FL (30.39°N, 86.50°W). Live data: NWS api.weather.gov · NOAA Tides &amp; Currents Sta. 8729511.<br>
+    Sun, moon, and scores computed locally. Everything you enter stays on this device.<br>
+    Heuristic scores are guidance, not a safety authority - always obey lifeguards and posted flags.
+  </footer>
+</div>
+
+<script>
+/* ============ CONFIG ============ */
+const LAT = 30.3935, LON = -86.4958;
+const TIDE_STATION = "8729511";
+const TZ = "America/Chicago";
+const STORE = "destin_daybreak_v1";
+
+/* ============ STATE ============ */
+let state = {
+  flag: null,
+  ops: {addr:"",checkout:"",wifi:"",host:"",urgent:""},
+  checklist: [
+    {t:"Reef-safe sunscreen", d:false},
+    {t:"Charge phone / portable battery", d:false},
+    {t:"Water + snacks for the cooler", d:false}
+  ],
+  itinerary: [
+    {date:"2026-06-20", label:"Arrival",
+      m:"Travel / drive in",
+      a:"Check in at Sterling Shores 1001, grocery run at Publix on US-98 (stock toddler stuff), unpack, easy pool time",
+      e:"Low-key first dinner at Dewey Destin's Harborside, kid-friendly and on the water. Get your son down early after the travel day"},
+    {date:"2026-06-21", label:"Beach + Harbor",
+      m:"Beach right out front. Set up shade early, best window before the heat and the toddler nap",
+      a:"Back to the condo: nap + pool while the afternoon storms roll through",
+      e:"HarborWalk Village stroll, ice cream, dinner at Boshamps or AJ's (both easy with kids)"},
+    {date:"2026-06-22", label:"Crab Island",
+      m:"Crab Island on a shaded double-decker pontoon with a slide. Shallow, calm water, great for your son and easy for your mom too. Book ahead with shade, it sells out",
+      a:"Off the water by early afternoon for nap/pool. Reapply sunscreen on everyone",
+      e:"Casual: Camille's at Crystal Beach or Pompano Joe's, sunset on the sand"},
+    {date:"2026-06-23", label:"Park + Water Park",
+      m:"Henderson Beach State Park: boardwalks, showers, stroller-friendly, quieter sand",
+      a:"Big Kahuna's (walkable): kiddie area for your son, slides for the 20-somethings. Pool if it's too much",
+      e:"Dinner at Brotula's, harbor view and family-friendly"},
+    {date:"2026-06-24", label:"Adventure",
+      m:"Dolphin cruise: glass-bottom, AC cabin, good for your mom and your son. You, your brother, and the niece can add jet ski or parasail",
+      a:"Down time / pool / nap",
+      e:"Destin Commons: shops, dinner, A/C, movie if it's storming. Easy with the whole crew"},
+    {date:"2026-06-25", label:"Fishing / Beach",
+      m:"Split day: you + your brother on a half-day fishing charter; mom, the wives, niece, and your son do a relaxed beach + pool morning",
+      a:"Everyone regroups: nap / ice cream / pool",
+      e:"Sunset cruise from HarborWalk, dinner after"},
+    {date:"2026-06-26", label:"Last Full Day",
+      m:"Favorite beach morning, last long swim out front",
+      a:"Souvenirs at HarborWalk, start packing, final pool session",
+      e:"Farewell dinner at Marina Cafe, nice but kid-OK with a harbor view"},
+    {date:"2026-06-27", label:"Departure",
+      m:"Pack up, checkout, last balcony coffee, drive to VPS (about 32 min)",
+      a:"Travel",
+      e:"Home"}
+  ]
+};
+let live = {ok:false, weather:null, tides:[], waterTemp:null, surf:null, uv:null, rain:null, alerts:[]};
+
+/* ============ STORAGE ============ */
+function load(){ try{const s=JSON.parse(localStorage.getItem(STORE)); if(s) state={...state,...s, ops:{...state.ops,...(s.ops||{})}};}catch(e){} }
+function save(){ try{localStorage.setItem(STORE, JSON.stringify(state));}catch(e){} }
+
+/* ============ TIME / SUN / MOON (local math) ============ */
+function fmtTime(d){ return new Intl.DateTimeFormat('en-US',{hour:'numeric',minute:'2-digit',timeZone:TZ}).format(d); }
+function fmtDateLong(d){ return new Intl.DateTimeFormat('en-US',{weekday:'long',month:'long',day:'numeric',timeZone:TZ}).format(d); }
+
+// Sunrise/sunset via NOAA solar equations, returned as Date (UTC), displayed in TZ
+function sunTimes(date){
+  const rad=Math.PI/180, deg=180/Math.PI;
+  const d = Math.floor((Date.UTC(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate())/86400000) - 10957.5 + 0.5);
+  function calc(sunrise){
+    const lngHour = LON/15;
+    const t = d + ((sunrise?6:18) - lngHour)/24;
+    const M = (0.9856*t) - 3.289;
+    let L = M + (1.916*Math.sin(M*rad)) + (0.020*Math.sin(2*M*rad)) + 282.634;
+    L=(L%360+360)%360;
+    let RA = deg*Math.atan(0.91764*Math.tan(L*rad));
+    RA=(RA%360+360)%360;
+    RA += (Math.floor(L/90)*90 - Math.floor(RA/90)*90);
+    RA/=15;
+    const sinDec=0.39782*Math.sin(L*rad), cosDec=Math.cos(Math.asin(sinDec));
+    const zenith=90.833;
+    const cosH=(Math.cos(zenith*rad)-(sinDec*Math.sin(LAT*rad)))/(cosDec*Math.cos(LAT*rad));
+    if(cosH>1||cosH<-1) return null;
+    let H = sunrise ? 360-deg*Math.acos(cosH) : deg*Math.acos(cosH);
+    H/=15;
+    const T = H + RA - (0.06571*t) - 6.622;
+    let UT=(T-lngHour); UT=(UT%24+24)%24;
+    const res=new Date(Date.UTC(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate()));
+    res.setUTCHours(0,0,0,0); res.setUTCMinutes(Math.round(UT*60));
+    return res;
+  }
+  return {rise:calc(true), set:calc(false)};
+}
+
+function moonInfo(date){
+  const synodic=29.530588853;
+  const ref=Date.UTC(2000,0,6,18,14); // known new moon
+  const days=(date.getTime()-ref)/86400000;
+  let age=days%synodic; if(age<0)age+=synodic;
+  const frac=age/synodic;
+  const illum=Math.round((1-Math.cos(2*Math.PI*frac))/2*100);
+  let name,emoji;
+  if(age<1.8){name="New Moon";emoji="🌑";}
+  else if(age<7.4){name="Waxing Crescent";emoji="🌒";}
+  else if(age<8.4){name="First Quarter";emoji="🌓";}
+  else if(age<13.8){name="Waxing Gibbous";emoji="🌔";}
+  else if(age<15.8){name="Full Moon";emoji="🌕";}
+  else if(age<22.1){name="Waning Gibbous";emoji="🌖";}
+  else if(age<23.1){name="Last Quarter";emoji="🌗";}
+  else if(age<28.5){name="Waning Crescent";emoji="🌘";}
+  else {name="New Moon";emoji="🌑";}
+  return {age,frac,illum,name,emoji};
+}
+
+/* ============ LIVE FETCH ============ */
+async function fetchAll(){
+  setStatus("loading","Pulling live conditions…");
+  let anyOk=false;
+  // NWS
+  try{
+    const pts=await (await fetch(`https://api.weather.gov/points/${LAT},${LON}`)).json();
+    const fc=await (await fetch(pts.properties.forecast)).json();
+    const periods=fc.properties.periods;
+    const cur=periods[0];
+    live.daily=periods.filter(p=>p.isDaytime).map(p=>{
+      const date=new Intl.DateTimeFormat('en-CA',{timeZone:TZ}).format(new Date(p.startTime));
+      const pop=(p.probabilityOfPrecipitation&&p.probabilityOfPrecipitation.value!=null)?p.probabilityOfPrecipitation.value:extractPop(p.detailedForecast);
+      return {date, name:p.name, temp:p.temperature, short:p.shortForecast, windRaw:parseInt(p.windSpeed)||0, pop};
+    });
+    live.weather={
+      now:`${cur.temperature}°${cur.temperatureUnit} · ${cur.shortForecast}`,
+      today:cur.detailedForecast,
+      shortToday:cur.shortForecast,
+      temp:cur.temperature,
+      wind:`${cur.windSpeed} ${cur.windDirection||''}`.trim(),
+      windRaw:parseInt(cur.windSpeed)||0
+    };
+    live.rain = (cur.probabilityOfPrecipitation && cur.probabilityOfPrecipitation.value!=null)? cur.probabilityOfPrecipitation.value : extractPop(cur.detailedForecast);
+    anyOk=true;
+    // marine/seas keyword scrape from detailed forecast
+    const m=cur.detailedForecast.match(/seas?[^.]*?(\d+)\s*(?:to\s*(\d+)\s*)?(?:ft|feet|foot)/i);
+    if(m) live.surf = m[2]?`${m[1]}-${m[2]} ft`:`~${m[1]} ft`;
+  }catch(e){ console.warn("NWS forecast failed",e); }
+  // Alerts
+  try{
+    const al=await (await fetch(`https://api.weather.gov/alerts/active?point=${LAT},${LON}`)).json();
+    live.alerts=(al.features||[]).map(f=>({event:f.properties.event, head:f.properties.headline}));
+    anyOk=true;
+  }catch(e){ console.warn("NWS alerts failed",e); }
+  // Tides (hi/lo predictions today+tomorrow)
+  try{
+    const today=new Date();
+    const d0=ymd(today), d1=ymd(new Date(today.getTime()+86400000));
+    const url=`https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?station=${TIDE_STATION}&product=predictions&datum=MLLW&time_zone=lst_ldt&units=english&interval=hilo&format=json&begin_date=${d0}&end_date=${d1}`;
+    const td=await (await fetch(url)).json();
+    if(td.predictions) live.tides=td.predictions.map(p=>({t:p.t,type:p.type,v:parseFloat(p.v)}));
+    anyOk=true;
+  }catch(e){ console.warn("Tides failed",e); }
+  // Water temp (try control station w/ sensors)
+  try{
+    const url=`https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?station=8729840&product=water_temperature&time_zone=lst_ldt&units=english&format=json&date=latest`;
+    const wt=await (await fetch(url)).json();
+    if(wt.data&&wt.data[0]) live.waterTemp=Math.round(parseFloat(wt.data[0].v));
+  }catch(e){ console.warn("Water temp failed",e); }
+
+  live.ok=anyOk;
+  if(anyOk) setStatus("live","Live conditions loaded");
+  else setStatus("fail","Live feed unavailable - using local math + your inputs. (Works fully once hosted on the web.)");
+  live.updated=new Date();
+}
+function ymd(d){ return d.getUTCFullYear()+String(d.getUTCMonth()+1).padStart(2,'0')+String(d.getUTCDate()).padStart(2,'0'); }
+function extractPop(txt){ const m=txt&&txt.match(/(\d+)\s*percent chance/i); return m?parseInt(m[1]):null; }
+
+function setStatus(cls,txt){
+  const el=document.getElementById('status');
+  el.className=cls; document.getElementById('status-txt').textContent=txt;
+}
+
+/* ============ SCORING ============ */
+function tidesToday(){
+  const todayStr=new Intl.DateTimeFormat('en-CA',{timeZone:TZ}).format(new Date());
+  return live.tides.filter(t=>t.t.startsWith(todayStr));
+}
+function nearTideChange(){
+  const now=new Date();
+  for(const t of live.tides){
+    const dt=new Date(t.t.replace(' ','T'));
+    if(Math.abs(dt-now)<=60*60*1000) return true;
+  }
+  return false;
+}
+function scoreBeach({temp, short, windRaw, pop, flag}){
+  let s=8, reasons=[];
+  if(flag==='double'){s-=7;reasons.push("water closed (double red)");}
+  else if(flag==='red'){s-=4;reasons.push("red flag surf");}
+  else if(flag==='purple'){s-=2;reasons.push("marine life (purple)");}
+  else if(flag==='yellow'){s-=1;reasons.push("moderate surf");}
+  else if(flag==='green'){s+=1;reasons.push("calm water");}
+  if(temp!=null){
+    if(temp>=80&&temp<=92){s+=1;}
+    if(temp>92){s-=1;reasons.push("hot");}
+    if(temp<70){s-=2;reasons.push("cool");}
+  }
+  if(short){
+    if(/rain|storm|shower|thunder/i.test(short)){s-=2;reasons.push("rain in forecast");}
+    else if(/sunny|clear/i.test(short)){s+=1;}
+  }
+  if(windRaw!=null&&windRaw>=18){s-=2;reasons.push("breezy");}
+  if(pop!=null&&pop>=50){s-=1;}
+  s=Math.max(0,Math.min(10,Math.round(s)));
+  return {s,reasons};
+}
+function computeBeachScore(){
+  const w=live.weather||{};
+  return scoreBeach({temp:w.temp, short:w.shortToday, windRaw:w.windRaw, pop:live.rain, flag:state.flag});
+}
+const TRIP_START="2026-06-20", TRIP_END="2026-06-27";
+function rankBeachDays(){
+  if(!live.daily) return [];
+  return live.daily
+    .filter(d=> d.date>=TRIP_START && d.date<=TRIP_END)
+    .map(d=>({...d, ...scoreBeach({temp:d.temp,short:d.short,windRaw:d.windRaw,pop:d.pop,flag:null})}))
+    .sort((a,b)=> b.s-a.s || a.date.localeCompare(b.date));
+}
+function niceDate(ds){
+  return new Intl.DateTimeFormat('en-US',{weekday:'short',month:'short',day:'numeric',timeZone:TZ}).format(new Date(ds+'T12:00:00'));
+}
+function computeFishScore(){
+  let s=5, reasons=[];
+  const m=moonInfo(new Date());
+  // solunar: new & full strongest
+  const d=Math.min(m.age, 29.53-m.age); // distance from new
+  const distFull=Math.abs(m.age-14.77);
+  if(d<2||distFull<2){s+=3;reasons.push(d<2?"new moon":"full moon");}
+  else if(d<5||distFull<5){s+=1;}
+  if(nearTideChange()){s+=2;reasons.push("near tide change");}
+  // dawn/dusk bump
+  const st=sunTimes(new Date());
+  const now=new Date();
+  if(st.rise&&Math.abs(now-st.rise)<90*60*1000){s+=1;reasons.push("dawn window");}
+  if(st.set&&Math.abs(now-st.set)<90*60*1000){s+=1;reasons.push("dusk window");}
+  const w=live.weather;
+  if(w&&w.windRaw>=22){s-=2;reasons.push("wind chopping it up");}
+  s=Math.max(0,Math.min(10,Math.round(s)));
+  return {s,reasons};
+}
+
+/* ============ RENDER ============ */
+function render(){
+  const now=new Date();
+  document.getElementById('today').textContent=fmtDateLong(now);
+  const st=sunTimes(now);
+  if(st.rise&&st.set){
+    document.getElementById('sun').textContent=`☀ ${fmtTime(st.rise)} - ${fmtTime(st.set)}`;
+    const mins=Math.round((st.set-st.rise)/60000);
+    document.getElementById('daylight').textContent=`${Math.floor(mins/60)}h ${mins%60}m`;
+  }
+  const mn=moonInfo(now);
+  document.getElementById('moon').textContent=`${mn.emoji} ${mn.name} ${mn.illum}%`;
+
+  // weather
+  const w=live.weather;
+  document.getElementById('w-now').textContent = w? w.now : "-";
+  document.getElementById('w-today').textContent = w? w.shortToday : "-";
+  document.getElementById('w-wind').textContent = w? w.wind : "-";
+  document.getElementById('w-rain').textContent = live.rain!=null? live.rain+"%" : "-";
+  document.getElementById('water-temp').textContent = live.waterTemp!=null? live.waterTemp+"°F" : "-";
+  document.getElementById('surf').textContent = live.surf || "-";
+  document.getElementById('uv').textContent = live.uv || "-";
+
+  // flags
+  document.querySelectorAll('.flagbtn').forEach(b=>b.classList.toggle('active', b.dataset.f===state.flag));
+
+  // tides
+  renderTides();
+  renderAlerts();
+
+  // scores
+  const bs=computeBeachScore(), fs=computeFishScore();
+  setScore('beach-score','beach-bead','beach-score-sub',bs.s, scoreWord(bs.s)+(bs.reasons.length?` · ${bs.reasons.slice(0,2).join(", ")}`:""));
+  setScore('fish-score','fish-bead',null,fs.s, null);
+  document.getElementById('fish-score-sub').textContent = fs.reasons.length? fs.reasons.slice(0,2).join(", ") : "average activity";
+
+  renderBriefing(bs,fs,mn,st);
+  document.getElementById('updated').textContent = live.updated? "Updated "+fmtTime(live.updated) : "Local data only";
+
+  // ops
+  for(const k in state.ops){ const el=document.getElementById('op-'+k); if(el) el.value=state.ops[k]; }
+  renderChecklist();
+  renderItinerary();
+  renderBestDay();
+}
+function setScore(numId,beadId,subId,val,sub){
+  document.getElementById(numId).innerHTML=val+'<span>/10</span>';
+  document.getElementById(beadId).style.width=(val*10)+'%';
+  if(subId&&sub!=null) document.getElementById(subId).textContent=sub;
+}
+function scoreWord(s){ return s>=8?"prime beach day":s>=6?"solid, minor caveats":s>=4?"doable, manage it":"skip the water"; }
+
+function renderTides(){
+  const el=document.getElementById('tides');
+  const tides=tidesToday();
+  if(!tides.length){ el.innerHTML='<div class="stat"><span class="k">No live tide data - host on web to enable, or check NOAA.</span></div>'; return; }
+  el.innerHTML=tides.map(t=>{
+    const dt=new Date(t.t.replace(' ','T'));
+    const type=t.type==='H'?'H':'L';
+    return `<div class="tide-row"><span class="pill ${type}">${type==='H'?'High':'Low'}</span>
+      <span class="time">${fmtTime(dt)}</span>
+      <span class="ht">${t.v.toFixed(1)} ft</span></div>`;
+  }).join('');
+}
+function renderAlerts(){
+  const el=document.getElementById('alerts');
+  if(!live.alerts||!live.alerts.length){ el.innerHTML='<div class="stat"><span class="v" style="color:#1c7a4a">✓ No active alerts</span></div>'; return; }
+  el.innerHTML=live.alerts.map(a=>`<div class="stat"><span class="k">⚠️ ${a.event}</span></div>`).join('');
+}
+
+function renderBriefing(bs,fs,mn,st){
+  const h=new Date().getHours();
+  document.getElementById('brief-greeting').textContent = h<5?"Late one.":h<11?"Good morning.":h<17?"Afternoon.":"Evening.";
+  const w=live.weather;
+  let lines=[];
+  if(w){
+    lines.push(`It's <b>${w.now}</b> in Destin, wind ${w.wind.toLowerCase()}${live.rain!=null?`, ${live.rain}% chance of rain`:''}.`);
+  }else{
+    lines.push(`Live weather isn't loading right now - once this is hosted on the web it'll pull automatically. Tap your flag and add conditions for an accurate read.`);
+  }
+  const tt=tidesToday();
+  if(tt.length){
+    const next=tt.map(t=>({...t,dt:new Date(t.t.replace(' ','T'))})).filter(t=>t.dt>new Date())[0];
+    if(next) lines.push(`Next tide is a <b>${next.type==='H'?'high':'low'} at ${fmtTime(next.dt)}</b>.`);
+  }
+  if(live.waterTemp!=null) lines.push(`Water's around <b>${live.waterTemp}°F</b>.`);
+  // flag line
+  const flagTxt={green:"Green flag - calm.",yellow:"Yellow flag - moderate surf, watch the kids.",red:"Red flag - strong surf and currents, stay shallow.",double:"Double red - water is closed. Don't go in.",purple:"Purple flag - dangerous marine life reported."};
+  if(state.flag) lines.push(`<b>${flagTxt[state.flag]}</b>`);
+  else lines.push(`Tap today's beach flag once you've checked (text BEACH to 44144) for a sharper read.`);
+  // alerts
+  if(live.alerts&&live.alerts.length) lines.push(`⚠️ Active NWS alert: <b>${live.alerts[0].event}</b>.`);
+  // verdict
+  lines.push(`Beach day reads <b>${bs.s}/10</b>${state.flag==='double'?'':`, fishing <b>${fs.s}/10</b> (${mn.name.toLowerCase()})`}.`);
+  document.getElementById('brief-body').innerHTML=lines.join(' ');
+
+  const vw=document.getElementById('verdict-wrap');
+  let cls,txt;
+  if(state.flag==='double'){cls='v-no';txt='🚫 Water closed today';}
+  else if(bs.s>=7){cls='v-go';txt='✅ Go enjoy it';}
+  else if(bs.s>=4){cls='v-ok';txt='⚠️ Fine with caution';}
+  else {cls='v-no';txt='🛑 Plan something off the water';}
+  vw.innerHTML=`<div class="verdict ${cls}">${txt}</div>`;
+}
+
+function renderChecklist(){
+  const ul=document.getElementById('checklist');
+  ul.innerHTML='';
+  state.checklist.forEach((it,i)=>{
+    const li=document.createElement('li');
+    li.innerHTML=`<input type="checkbox" ${it.d?'checked':''}>
+      <span class="txt ${it.d?'done':''}">${it.t}</span>
+      <button class="del">✕</button>`;
+    li.querySelector('input').onchange=e=>{ state.checklist[i].d=e.target.checked; save(); renderChecklist(); };
+    li.querySelector('.del').onclick=()=>{ state.checklist.splice(i,1); save(); renderChecklist(); };
+    ul.appendChild(li);
+  });
+}
+
+function autosize(t){ t.style.height='auto'; t.style.height=(t.scrollHeight)+'px'; }
+function renderItinerary(){
+  const box=document.getElementById('itinerary');
+  if(!box) return;
+  const todayStr=new Intl.DateTimeFormat('en-CA',{timeZone:TZ}).format(new Date());
+  const ranked=rankBeachDays();
+  const bestDate=ranked.length?ranked[0].date:null;
+  const wxByDate={};
+  if(live.daily) live.daily.forEach(d=>{ wxByDate[d.date]=d; });
+  box.innerHTML='';
+  state.itinerary.forEach((d,i)=>{
+    const dt=new Date(d.date+'T12:00:00');
+    const dd=new Intl.DateTimeFormat('en-US',{weekday:'short',month:'short',day:'numeric',timeZone:TZ}).format(dt);
+    const isToday=d.date===todayStr;
+    const isBest=d.date===bestDate;
+    const wx=wxByDate[d.date];
+    let wxLine='';
+    if(wx){
+      const hot=wx.temp!=null&&wx.temp>=90;
+      const wet=wx.pop!=null&&wx.pop>=40;
+      wxLine=`<div class="daywx">
+        <span class="chip ${hot?'hot':''}">☀ High ${wx.temp!=null?wx.temp+'°':'-'}</span>
+        <span class="chip ${wet?'wet':''}">☔ ${wx.pop!=null?wx.pop+'%':'-'}</span>
+        <span class="chip">💨 ${wx.windRaw?wx.windRaw+' mph':'-'}</span>
+        <span style="color:var(--ink-soft);font-weight:400">${wx.short||''}</span>
+      </div>`;
+    }
+    const day=document.createElement('div');
+    day.className='day'+(isToday?' is-today':'');
+    day.innerHTML=`
+      <div class="dayhead">
+        <span class="dl">${d.label}${isBest?' ⭐':''}</span>
+        <span class="dd">${dd}${isToday?' <span class="badge">Today</span>':''}${isBest?' <span class="badge" style="color:#a9742a;background:#fdf0d6">Best beach day</span>':''}</span>
+      </div>
+      ${wxLine}
+      <div class="slot"><span class="when am">Morning</span><textarea data-i="${i}" data-s="m">${d.m||''}</textarea></div>
+      <div class="slot"><span class="when pm">Afternoon</span><textarea data-i="${i}" data-s="a">${d.a||''}</textarea></div>
+      <div class="slot"><span class="when eve">Evening</span><textarea data-i="${i}" data-s="e">${d.e||''}</textarea></div>`;
+    box.appendChild(day);
+  });
+  box.querySelectorAll('textarea').forEach(t=>{
+    autosize(t);
+    t.addEventListener('input',()=>{
+      const i=+t.dataset.i, s=t.dataset.s;
+      state.itinerary[i][s]=t.value; autosize(t); save();
+    });
+  });
+}
+
+function renderBestDay(){
+  const list=document.getElementById('bestday-list');
+  const best=document.getElementById('bestday-best');
+  if(!list) return;
+  const ranked=rankBeachDays();
+  if(!ranked.length){
+    best.textContent="not yet";
+    list.innerHTML='<div class="rankrow"><span class="rwx" style="grid-column:1/-1">Ranking unlocks about 7 days out, once the NWS forecast reaches your trip dates. Until then, the itinerary plan stands.</span></div>';
+    return;
+  }
+  best.textContent=niceDate(ranked[0].date)+" ("+ranked[0].s+"/10)";
+  list.innerHTML=ranked.map((d,i)=>`<div class="rankrow ${i===0?'top':''}">
+    <span class="rk">${i===0?'⭐':'#'+(i+1)}</span>
+    <span class="rdate">${niceDate(d.date)}</span>
+    <span class="rscore">${d.s}/10</span>
+    <span class="rwx">${d.short||''}</span></div>`).join('');
+}
+
+/* ============ EVENTS ============ */
+function wire(){
+  document.querySelectorAll('.flagbtn').forEach(b=>{
+    b.onclick=()=>{ state.flag = state.flag===b.dataset.f? null : b.dataset.f; save(); render(); };
+  });
+  for(const k in state.ops){
+    const el=document.getElementById('op-'+k);
+    if(el) el.oninput=()=>{ state.ops[k]=el.value; save(); };
+  }
+  document.getElementById('add-item').onclick=addItem;
+  document.getElementById('new-item').addEventListener('keydown',e=>{ if(e.key==='Enter') addItem(); });
+  document.getElementById('refresh').onclick=async()=>{ await fetchAll(); render(); };
+}
+function addItem(){
+  const inp=document.getElementById('new-item');
+  const v=inp.value.trim(); if(!v) return;
+  state.checklist.push({t:v,d:false}); inp.value=''; save(); renderChecklist();
+}
+
+/* ============ INIT ============ */
+(async function(){
+  load();
+  if(!state.ops.addr) state.ops.addr="Sterling Shores 1001, Destin (vrbo.com/3531424)";
+  wire(); render();
+  await fetchAll(); render();
+})();
+</script>
+</body>
+</html>
