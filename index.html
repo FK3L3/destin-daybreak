@@ -190,6 +190,15 @@
   .refreshbar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap}
   .refreshbar .meta{font-size:.78rem;color:var(--ink-soft)}
 
+  /* TABS */
+  .tabnav{display:flex;gap:7px;padding:16px 0 6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-bottom:6px}
+  .tabnav::-webkit-scrollbar{display:none}
+  .tabbtn{flex:none;font-family:inherit;font-weight:600;font-size:.84rem;border:none;border-radius:99px;padding:9px 18px;cursor:pointer;background:var(--paper);color:var(--ink-soft);box-shadow:inset 0 0 0 1px var(--line);transition:.15s;white-space:nowrap}
+  .tabbtn:hover{color:var(--teal)}
+  .tabbtn.active{background:var(--teal);color:#fff;box-shadow:0 4px 14px -6px rgba(14,107,99,.5)}
+  .tab-panel{display:none}
+  .tab-panel.active{display:block}
+
   footer{text-align:center;font-size:.74rem;color:var(--ink-soft);margin-top:30px;line-height:1.6}
   footer a{color:var(--teal)}
   @media(max-width:520px){
@@ -216,140 +225,139 @@
     <div id="status"><span class="dot"></span><span id="status-txt">Loading live conditions…</span></div>
   </header>
 
-  <!-- DAILY BRIEFING -->
-  <section class="briefing">
-    <div class="label">Your Morning Briefing</div>
-    <h2 id="brief-greeting">Good morning.</h2>
-    <div id="brief-body">Pulling the latest from the Gulf…</div>
-    <div id="verdict-wrap"></div>
-  </section>
+  <!-- TAB NAV -->
+  <nav class="tabnav">
+    <button class="tabbtn" data-tab="today">Today</button>
+    <button class="tabbtn" data-tab="conditions">Conditions</button>
+    <button class="tabbtn" data-tab="places">Places</button>
+    <button class="tabbtn" data-tab="tripops">Trip Ops</button>
+    <button class="tabbtn" data-tab="itinerary">Itinerary</button>
+  </nav>
 
-  <!-- SCORES -->
-  <section class="scores">
-    <div class="scorecard">
-      <div class="t">Beach Score</div>
-      <div class="num" id="beach-score">-<span>/10</span></div>
-      <div class="sub" id="beach-score-sub">-</div>
-      <div class="bead"><i id="beach-bead" style="width:0%"></i></div>
+  <!-- TAB: TODAY -->
+  <div class="tab-panel" id="tab-today">
+    <section class="briefing">
+      <div class="label">Your Morning Briefing</div>
+      <h2 id="brief-greeting">Good morning.</h2>
+      <div id="brief-body">Pulling the latest from the Gulf…</div>
+      <div id="verdict-wrap"></div>
+    </section>
+    <section class="scores">
+      <div class="scorecard">
+        <div class="t">Beach Score</div>
+        <div class="num" id="beach-score">-<span>/10</span></div>
+        <div class="sub" id="beach-score-sub">-</div>
+        <div class="bead"><i id="beach-bead" style="width:0%"></i></div>
+      </div>
+      <div class="scorecard">
+        <div class="t">Bite Score</div>
+        <div class="num" id="fish-score">-<span>/10</span></div>
+        <div class="sub" id="fish-score-sub">solunar + tide heuristic</div>
+        <div class="bead"><i id="fish-bead" style="width:0%"></i></div>
+      </div>
+    </section>
+    <div class="refreshbar">
+      <span class="meta" id="updated">-</span>
+      <button class="btn ghost" id="refresh">↻ Refresh conditions</button>
     </div>
-    <div class="scorecard">
-      <div class="t">Bite Score</div>
-      <div class="num" id="fish-score">-<span>/10</span></div>
-      <div class="sub" id="fish-score-sub">solunar + tide heuristic</div>
-      <div class="bead"><i id="fish-bead" style="width:0%"></i></div>
-    </div>
-  </section>
-
-  <div class="refreshbar">
-    <span class="meta" id="updated">-</span>
-    <button class="btn ghost" id="refresh">↻ Refresh conditions</button>
+    <section class="card full bestday">
+      <h3><span class="ic">⭐</span>Best Beach Day <span style="font-weight:400;font-size:.8rem;color:var(--ink-soft)">- ranked Jun 20-27 from the forecast</span></h3>
+      <div id="bestday-headline" class="bd-head">Pick day: <b id="bestday-best">-</b></div>
+      <div id="bestday-list"></div>
+    </section>
   </div>
 
-  <!-- BEST BEACH DAY -->
-  <section class="card full bestday">
-    <h3><span class="ic">⭐</span>Best Beach Day <span style="font-weight:400;font-size:.8rem;color:var(--ink-soft)">- ranked Jun 20-27 from the forecast</span></h3>
-    <div id="bestday-headline" class="bd-head">Pick day: <b id="bestday-best">-</b></div>
-    <div id="bestday-list"></div>
-  </section>
-
-  <!-- CONDITIONS GRID -->
-  <section class="grid">
-
-    <div class="card">
-      <h3><span class="ic">🌤️</span>Weather</h3>
-      <div class="stat"><span class="k">Now</span><span class="v" id="w-now">-</span></div>
-      <div class="stat"><span class="k">Today</span><span class="v" id="w-today">-</span></div>
-      <div class="stat"><span class="k">Wind</span><span class="v" id="w-wind">-</span></div>
-      <div class="stat"><span class="k">Rain chance</span><span class="v" id="w-rain">-</span></div>
-    </div>
-
-    <div class="card">
-      <h3><span class="ic">🌊</span>Water</h3>
-      <div class="stat"><span class="k">Water temp</span><span class="v" id="water-temp">-</span></div>
-      <div class="stat"><span class="k">Surf / seas</span><span class="v" id="surf">-</span></div>
-      <div class="stat"><span class="k">UV index</span><span class="v" id="uv">-</span></div>
-      <div class="stat"><span class="k">Daylight</span><span class="v" id="daylight">-</span></div>
-    </div>
-
-    <div class="card full">
-      <h3><span class="ic">🚩</span>Beach Flag <span style="font-weight:400;font-size:.8rem;color:var(--ink-soft)">- tap today's flag</span></h3>
-      <div class="flags" id="flags">
-        <button class="flagbtn" data-f="green"><span class="swatch"></span>Green</button>
-        <button class="flagbtn" data-f="yellow"><span class="swatch"></span>Yellow</button>
-        <button class="flagbtn" data-f="red"><span class="swatch"></span>Red</button>
-        <button class="flagbtn" data-f="double"><span class="swatch"></span>Dbl Red</button>
-        <button class="flagbtn" data-f="purple"><span class="swatch"></span>Purple</button>
+  <!-- TAB: CONDITIONS -->
+  <div class="tab-panel" id="tab-conditions">
+    <section class="grid">
+      <div class="card">
+        <h3><span class="ic">🌤️</span>Weather</h3>
+        <div class="stat"><span class="k">Now</span><span class="v" id="w-now">-</span></div>
+        <div class="stat"><span class="k">Today</span><span class="v" id="w-today">-</span></div>
+        <div class="stat"><span class="k">Wind</span><span class="v" id="w-wind">-</span></div>
+        <div class="stat"><span class="k">Rain chance</span><span class="v" id="w-rain">-</span></div>
       </div>
-      <div class="hint">No public feed for live flags. Text <b>BEACH to 44144</b> for Okaloosa County's daily flag alert, or check the county Facebook page, then tap it here. Double red = water closed (and ticketable).</div>
-    </div>
+      <div class="card">
+        <h3><span class="ic">🌊</span>Water</h3>
+        <div class="stat"><span class="k">Water temp</span><span class="v" id="water-temp">-</span></div>
+        <div class="stat"><span class="k">Surf / seas</span><span class="v" id="surf">-</span></div>
+        <div class="stat"><span class="k">UV index</span><span class="v" id="uv">-</span></div>
+        <div class="stat"><span class="k">Daylight</span><span class="v" id="daylight">-</span></div>
+      </div>
+      <div class="card full">
+        <h3><span class="ic">🚩</span>Beach Flag <span style="font-weight:400;font-size:.8rem;color:var(--ink-soft)">- tap today's flag</span></h3>
+        <div class="flags" id="flags">
+          <button class="flagbtn" data-f="green"><span class="swatch"></span>Green</button>
+          <button class="flagbtn" data-f="yellow"><span class="swatch"></span>Yellow</button>
+          <button class="flagbtn" data-f="red"><span class="swatch"></span>Red</button>
+          <button class="flagbtn" data-f="double"><span class="swatch"></span>Dbl Red</button>
+          <button class="flagbtn" data-f="purple"><span class="swatch"></span>Purple</button>
+        </div>
+        <div class="hint">No public feed for live flags. Text <b>BEACH to 44144</b> for Okaloosa County's daily flag alert, or check the county Facebook page, then tap it here. Double red = water closed (and ticketable).</div>
+      </div>
+      <div class="card full">
+        <h3><span class="ic">🌗</span>Tides <span style="font-weight:400;font-size:.8rem;color:var(--ink-soft)">- NOAA Sta. 8729511, East Pass</span></h3>
+        <div class="tides" id="tides"><div class="stat"><span class="k">Loading tide predictions…</span></div></div>
+      </div>
+      <div class="card full">
+        <h3><span class="ic">⚠️</span>NWS Alerts</h3>
+        <div id="alerts"><div class="stat"><span class="k">Checking active alerts…</span></div></div>
+      </div>
+    </section>
+  </div>
 
-    <div class="card full">
-      <h3><span class="ic">🌗</span>Tides <span style="font-weight:400;font-size:.8rem;color:var(--ink-soft)">- NOAA Sta. 8729511, East Pass</span></h3>
-      <div class="tides" id="tides"><div class="stat"><span class="k">Loading tide predictions…</span></div></div>
-    </div>
-
-    <div class="card full">
-      <h3><span class="ic">⚠️</span>NWS Alerts</h3>
-      <div id="alerts"><div class="stat"><span class="k">Checking active alerts…</span></div></div>
-    </div>
-
-    <!-- PLACES & LINKS -->
-    <div class="card full">
+  <!-- TAB: PLACES -->
+  <div class="tab-panel" id="tab-places">
+    <div class="card full" style="margin-top:14px">
       <h3><span class="ic">📍</span>Places &amp; Links</h3>
-
       <div class="place-day">Jun 20 · Arrival</div>
       <div class="place-links">
         <a class="place-link" href="https://maps.google.com/?q=Dewey+Destin%27s+Harborside+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Dewey Destin's Harborside</a>
         <a class="place-link" href="https://maps.google.com/?q=Publix+34224+Emerald+Coast+Pkwy+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Publix (US-98)</a>
         <a class="place-link" href="https://maps.google.com/?q=Sterling+Shores+Condominiums+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Sterling Shores</a>
       </div>
-
       <div class="place-day">Jun 21 · Beach + Harbor</div>
       <div class="place-links">
         <a class="place-link" href="https://maps.google.com/?q=HarborWalk+Village+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>HarborWalk Village</a>
         <a class="place-link" href="https://maps.google.com/?q=Boshamps+Seafood+%26+Oyster+House+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Boshamps Seafood</a>
         <a class="place-link" href="https://maps.google.com/?q=AJ%27s+Seafood+%26+Oyster+Bar+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>AJ's Seafood & Oyster Bar</a>
       </div>
-
       <div class="place-day">Jun 22 · Crab Island</div>
       <div class="place-links">
         <a class="place-link" href="https://maps.google.com/?q=Crab+Island+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Crab Island</a>
         <a class="place-link" href="https://maps.google.com/?q=Camille%27s+at+Crystal+Beach+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Camille's at Crystal Beach</a>
         <a class="place-link" href="https://maps.google.com/?q=Pompano+Joe%27s+Seafood+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Pompano Joe's</a>
       </div>
-
       <div class="place-day">Jun 23 · Park + Water Park</div>
       <div class="place-links">
         <a class="place-link" href="https://maps.google.com/?q=Henderson+Beach+State+Park+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Henderson Beach State Park</a>
         <a class="place-link" href="https://maps.google.com/?q=Big+Kahuna%27s+Water+%26+Adventure+Park+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Big Kahuna's</a>
         <a class="place-link" href="https://maps.google.com/?q=Brotula%27s+Seafood+House+%26+Steamer+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Brotula's Seafood</a>
       </div>
-
       <div class="place-day">Jun 24 · Adventure Day</div>
       <div class="place-links">
         <a class="place-link" href="https://maps.google.com/?q=Destin+Commons+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Destin Commons</a>
         <a class="place-link" href="https://maps.google.com/?q=Dolphin+Cruise+Destin+FL+HarborWalk" target="_blank" rel="noopener"><span class="map-ic">📍</span>Dolphin Cruise (HarborWalk)</a>
       </div>
-
       <div class="place-day">Jun 25 · Fishing + Sunset Cruise</div>
       <div class="place-links">
         <a class="place-link" href="https://maps.google.com/?q=Destin+Harbor+fishing+charters+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Destin Harbor Fishing Charters</a>
         <a class="place-link" href="https://maps.google.com/?q=HarborWalk+Village+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>HarborWalk Sunset Cruise</a>
       </div>
-
       <div class="place-day">Jun 26 · Last Full Day</div>
       <div class="place-links">
         <a class="place-link" href="https://maps.google.com/?q=Marina+Cafe+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Marina Cafe</a>
       </div>
-
       <div class="place-day">Jun 27 · Departure</div>
       <div class="place-links">
         <a class="place-link" href="https://maps.google.com/?q=Destin-Fort+Walton+Beach+Airport+VPS" target="_blank" rel="noopener"><span class="map-ic">📍</span>VPS Airport (~32 min)</a>
       </div>
     </div>
+  </div>
 
-    <!-- TRIP OPS -->
-    <div class="card full ops">
+  <!-- TAB: TRIP OPS -->
+  <div class="tab-panel" id="tab-tripops">
+    <div class="card full ops" style="margin-top:14px">
       <h3><span class="ic">🏠</span>Trip Ops</h3>
       <div class="row"><label>Condo / address</label><input id="op-addr" placeholder="tap to add"></div>
       <div class="row"><label>Checkout time</label><input id="op-checkout" placeholder="e.g. 10:00 AM"></div>
@@ -361,8 +369,7 @@
       <div class="row"><label>Fitness access</label><input id="op-fitness" placeholder="tap to add"></div>
       <div class="row"><label>Pedestrian gate</label><input id="op-pedgate" placeholder="tap to add"></div>
     </div>
-
-    <div class="card full ops">
+    <div class="card full ops" style="margin-top:14px">
       <h3><span class="ic">✅</span>Checklist</h3>
       <ul class="checklist" id="checklist"></ul>
       <div class="additem">
@@ -370,13 +377,15 @@
         <button class="btn" id="add-item">Add</button>
       </div>
     </div>
+  </div>
 
-    <div class="card full itin">
+  <!-- TAB: ITINERARY -->
+  <div class="tab-panel" id="tab-itinerary">
+    <div class="card full itin" style="margin-top:14px">
       <h3><span class="ic">🗓️</span>Trip Itinerary <span style="font-weight:400;font-size:.8rem;color:var(--ink-soft)">- Jun 20-27 · tap any slot to edit</span></h3>
       <div id="itinerary"></div>
     </div>
-
-  </section>
+  </div>
 
   <footer>
     Built for Destin, FL (30.39°N, 86.50°W). Live data: NWS api.weather.gov · NOAA Tides &amp; Currents Sta. 8729511.<br>
@@ -394,6 +403,7 @@ const STORE = "destin_daybreak_v1";
 
 /* ============ STATE ============ */
 let state = {
+  activeTab: "today",
   flag: null,
   ops: {addr:"",checkout:"",wifi:"",host:"",urgent:"",doorcode:"",gatecode:"",fitness:"",pedgate:""},
   checklist: [
@@ -814,6 +824,19 @@ function renderBestDay(){
     <span class="rwx">${d.short||''}</span></div>`).join('');
 }
 
+/* ============ TABS ============ */
+function initTabs(){
+  const btns=document.querySelectorAll('.tabbtn');
+  const panels=document.querySelectorAll('.tab-panel');
+  function switchTab(id){
+    btns.forEach(b=>b.classList.toggle('active',b.dataset.tab===id));
+    panels.forEach(p=>p.classList.toggle('active',p.id==='tab-'+id));
+    state.activeTab=id; save();
+  }
+  btns.forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
+  switchTab(state.activeTab||'today');
+}
+
 /* ============ EVENTS ============ */
 function wire(){
   document.querySelectorAll('.flagbtn').forEach(b=>{
@@ -843,7 +866,7 @@ function addItem(){
   if(!state.ops.gatecode) state.ops.gatecode="#0862";
   if(!state.ops.fitness) state.ops.fitness="175100";
   if(!state.ops.pedgate) state.ops.pedgate="0862";
-  wire(); render();
+  initTabs(); wire(); render();
   await fetchAll(); render();
 })();
 </script>
