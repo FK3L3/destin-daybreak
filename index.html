@@ -114,6 +114,14 @@
   .hint{font-size:.82rem;color:var(--ink-soft);background:#fff6e6;border:1px solid #f3dca6;border-radius:12px;padding:10px 12px;margin-top:6px;line-height:1.5}
   .hint b{color:#a9742a}
 
+  /* PLACES */
+  .place-day{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:700;margin:12px 0 6px}
+  .place-day:first-child{margin-top:0}
+  .place-links{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:2px}
+  .place-link{display:inline-flex;align-items:center;gap:5px;font-size:.84rem;font-weight:600;color:var(--teal);text-decoration:none;background:#eef7f5;border:1px solid rgba(14,107,99,.2);border-radius:99px;padding:5px 13px;transition:.15s}
+  .place-link:hover{background:var(--teal);color:#fff;border-color:var(--teal)}
+  .place-link .map-ic{font-size:.78rem;opacity:.65}
+
   /* TIDES */
   .tides{display:flex;flex-direction:column;gap:6px}
   .tide-row{display:flex;align-items:center;gap:12px;font-size:.95rem;padding:6px 0;border-bottom:1px dashed var(--line)}
@@ -283,6 +291,61 @@
     <div class="card full">
       <h3><span class="ic">⚠️</span>NWS Alerts</h3>
       <div id="alerts"><div class="stat"><span class="k">Checking active alerts…</span></div></div>
+    </div>
+
+    <!-- PLACES & LINKS -->
+    <div class="card full">
+      <h3><span class="ic">📍</span>Places &amp; Links</h3>
+
+      <div class="place-day">Jun 20 · Arrival</div>
+      <div class="place-links">
+        <a class="place-link" href="https://maps.google.com/?q=Dewey+Destin%27s+Harborside+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Dewey Destin's Harborside</a>
+        <a class="place-link" href="https://maps.google.com/?q=Publix+34224+Emerald+Coast+Pkwy+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Publix (US-98)</a>
+        <a class="place-link" href="https://maps.google.com/?q=Sterling+Shores+Condominiums+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Sterling Shores</a>
+      </div>
+
+      <div class="place-day">Jun 21 · Beach + Harbor</div>
+      <div class="place-links">
+        <a class="place-link" href="https://maps.google.com/?q=HarborWalk+Village+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>HarborWalk Village</a>
+        <a class="place-link" href="https://maps.google.com/?q=Boshamps+Seafood+%26+Oyster+House+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Boshamps Seafood</a>
+        <a class="place-link" href="https://maps.google.com/?q=AJ%27s+Seafood+%26+Oyster+Bar+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>AJ's Seafood & Oyster Bar</a>
+      </div>
+
+      <div class="place-day">Jun 22 · Crab Island</div>
+      <div class="place-links">
+        <a class="place-link" href="https://maps.google.com/?q=Crab+Island+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Crab Island</a>
+        <a class="place-link" href="https://maps.google.com/?q=Camille%27s+at+Crystal+Beach+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Camille's at Crystal Beach</a>
+        <a class="place-link" href="https://maps.google.com/?q=Pompano+Joe%27s+Seafood+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Pompano Joe's</a>
+      </div>
+
+      <div class="place-day">Jun 23 · Park + Water Park</div>
+      <div class="place-links">
+        <a class="place-link" href="https://maps.google.com/?q=Henderson+Beach+State+Park+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Henderson Beach State Park</a>
+        <a class="place-link" href="https://maps.google.com/?q=Big+Kahuna%27s+Water+%26+Adventure+Park+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Big Kahuna's</a>
+        <a class="place-link" href="https://maps.google.com/?q=Brotula%27s+Seafood+House+%26+Steamer+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Brotula's Seafood</a>
+      </div>
+
+      <div class="place-day">Jun 24 · Adventure Day</div>
+      <div class="place-links">
+        <a class="place-link" href="https://maps.google.com/?q=Destin+Commons+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Destin Commons</a>
+        <a class="place-link" href="https://maps.google.com/?q=Dolphin+Cruise+Destin+FL+HarborWalk" target="_blank" rel="noopener"><span class="map-ic">📍</span>Dolphin Cruise (HarborWalk)</a>
+      </div>
+
+      <div class="place-day">Jun 25 · Fishing + Sunset Cruise</div>
+      <div class="place-links">
+        <a class="place-link" href="https://maps.google.com/?q=Destin+Harbor+fishing+charters+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Destin Harbor Fishing Charters</a>
+        <a class="place-link" href="https://maps.google.com/?q=HarborWalk+Village+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>HarborWalk Sunset Cruise</a>
+      </div>
+
+      <div class="place-day">Jun 26 · Last Full Day</div>
+      <div class="place-links">
+        <a class="place-link" href="https://maps.google.com/?q=Marina+Cafe+Destin+FL" target="_blank" rel="noopener"><span class="map-ic">📍</span>Marina Cafe</a>
+      </div>
+
+      <div class="place-day">Jun 27 · Departure</div>
+      <div class="place-links">
+        <a class="place-link" href="https://maps.google.com/?q=Destin-Fort+Walton+Beach+Airport+VPS" target="_blank" rel="noopener"><span class="map-ic">📍</span>VPS Airport (~32 min)</a>
+      </div>
     </div>
 
     <!-- TRIP OPS -->
@@ -770,6 +833,8 @@ function addItem(){
 (async function(){
   load();
   if(!state.ops.addr) state.ops.addr="Sterling Shores 1001, Destin (vrbo.com/3531424)";
+  if(!state.ops.wifi) state.ops.wifi="sterling-guest · 43431776";
+  if(!state.ops.checkout) state.ops.checkout="Jun 27 · 10:00 AM";
   wire(); render();
   await fetchAll(); render();
 })();
