@@ -527,9 +527,6 @@ async function fetchAll(){
     };
     live.rain = (cur.probabilityOfPrecipitation && cur.probabilityOfPrecipitation.value!=null)? cur.probabilityOfPrecipitation.value : extractPop(cur.detailedForecast);
     anyOk=true;
-    // marine/seas keyword scrape from detailed forecast
-    const m=cur.detailedForecast.match(/seas?[^.]*?(\d+)\s*(?:to\s*(\d+)\s*)?(?:ft|feet|foot)/i);
-    if(m) live.surf = m[2]?`${m[1]}-${m[2]} ft`:`~${m[1]} ft`;
   }catch(e){ console.warn("NWS forecast failed",e); }
   // Alerts
   try{
@@ -552,6 +549,16 @@ async function fetchAll(){
     const wt=await (await fetch(url)).json();
     if(wt.data&&wt.data[0]) live.waterTemp=Math.round(parseFloat(wt.data[0].v));
   }catch(e){ console.warn("Water temp failed",e); }
+  // UV index - Open-Meteo (NWS land forecast doesn't include UV for this point)
+  try{
+    const r=await (await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=uv_index`)).json();
+    if(r.current?.uv_index!=null) live.uv=Math.round(r.current.uv_index);
+  }catch(e){ console.warn("UV failed",e); }
+  // Wave height - Open-Meteo Marine (meters → ft; NWS land forecast has no wave data for PCB)
+  try{
+    const r=await (await fetch(`https://marine-api.open-meteo.com/v1/marine?latitude=${LAT}&longitude=${LON}&current=wave_height`)).json();
+    if(r.current?.wave_height!=null) live.surf=`~${(r.current.wave_height*3.281).toFixed(1)} ft`;
+  }catch(e){ console.warn("Wave height failed",e); }
 
   live.ok=anyOk;
   if(anyOk) setStatus("live","Live conditions loaded");
@@ -656,7 +663,7 @@ function render(){
   document.getElementById('w-rain').textContent = live.rain!=null? live.rain+"%" : "-";
   document.getElementById('water-temp').textContent = live.waterTemp!=null? live.waterTemp+"°F" : "-";
   document.getElementById('surf').textContent = live.surf || "-";
-  document.getElementById('uv').textContent = live.uv || "-";
+  document.getElementById('uv').textContent = live.uv != null ? live.uv : "-";
 
   // flags
   document.querySelectorAll('.flagbtn').forEach(b=>b.classList.toggle('active', b.dataset.f===state.flag));
