@@ -21,6 +21,9 @@ python3 -m http.server 7800
   - Wave SVG fill changed to `#051B2C` to match dark body bg
   - JS inline "Best beach day" badge updated to use CSS vars for dark mode compat
 - Fixed AFTERNOON label overflow: `.slot` grid column bumped `74px` → `92px`
+- Fixed UV index: was never fetched; now pulls from Open-Meteo `current=uv_index` (NWS land forecast for PCB has no UV data)
+- Fixed Surf/seas: NWS Gulf land forecast has no wave data; now pulls `wave_height` from Open-Meteo Marine API, converted meters to ft
+- Fixed UV display: `live.uv || "-"` treated `0` (nighttime UV) as falsy; changed to `live.uv != null` null check
 
 ### Gotchas (updated)
 - **Dark mode is permanent** - no light/dark toggle, always dark. Color vars drive everything; if adding new elements use `rgba(255,255,255,X)` not hardcoded light colors.
